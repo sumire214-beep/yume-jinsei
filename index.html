@@ -404,6 +404,7 @@ body{background-color:#fdf1ea;background-image:
 
 /* ===== [追加] 好きをさがす章 ===== */
 .center{text-align:center}
+.ticket em.warn{display:block;font-style:normal;font-size:13px;color:#c2414a;font-weight:700;margin-top:2px}
 .idrow{margin-top:10px;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .idrow input{font-size:15px;width:110px;padding:3px 6px;border:1px dashed var(--line);background:#fff;font-family:var(--hand)}
 .adminlink{display:block;margin:18px auto 0;background:none;border:none;color:var(--ink2);font-size:12px;text-decoration:underline;cursor:pointer;min-height:36px}
@@ -500,6 +501,29 @@ body{background-color:#fdf1ea;background-image:
 .adrow{display:flex;gap:8px;align-items:center;margin:10px 0;font-size:15px}
 .adbtns{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
 #adminOut{width:100%;height:120px;font-size:11px;font-family:monospace;margin-bottom:10px}
+/* [追加] ざっしの方向・材料シート（ゲームの記録） */
+.zq{font-family:var(--mincho);font-weight:700;color:var(--burgundy);font-size:18px;margin:18px 0 8px}
+.zq small{font-family:var(--hand);font-weight:400;color:var(--ink2);font-size:13px;margin-left:6px}
+.ztypes{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.ztype{border:2px solid #efd3cf;background:#fff8f3;border-radius:12px;padding:10px;text-align:center;cursor:pointer;font-family:var(--hand);color:var(--ink);min-height:110px}
+.ztype .ze{font-size:34px;display:block}
+.ztype b{display:block;font-size:16px}
+.ztype span.d{display:block;font-size:12.5px;color:var(--ink2);line-height:1.45}
+.ztype.on{border-color:var(--burgundy);background:#fde3e8;animation:pyon .4s ease}
+.sheet .art2{float:right;width:200px;margin:0 0 10px 16px;position:relative}
+.sheet .art2 .scene{aspect-ratio:16/9;border-radius:50%;overflow:hidden;box-shadow:0 0 0 4px #fff,0 0 0 6px var(--rose)}
+.sheet .art2 .scene svg{width:100%;height:100%;display:block}
+.sheet .art2 .bd{position:absolute;right:-6px;bottom:-10px;width:52px;height:52px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 0 0 3px var(--rose)}
+.sheet .ztitle{font-family:var(--mincho);font-weight:700;font-size:28px;color:var(--burgundy)}
+.sheet .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.sheet .tags span{background:#fbf3e2;border:1px solid #e3c48a;border-radius:999px;padding:2px 10px;font-size:14px}
+.sheet .people{display:flex;flex-wrap:wrap;gap:6px}
+.sheet .people span{background:#fde3e8;border-radius:999px;padding:2px 10px;font-size:14px}
+.sheet .life{display:grid;grid-template-columns:1fr 1fr;gap:2px 18px;font-size:13px;line-height:1.5;padding-left:0;list-style:none;margin:4px 0 0}
+.sheet .life li{margin:0;padding-left:3.2em;text-indent:-3.2em;break-inside:avoid}
+.sheet .life b{color:var(--burgundy);display:inline-block;width:3em;text-indent:0}
+.sheet .life i{font-style:normal;color:var(--olive)}
+@media (max-width:640px){.sheet .art2{float:none;margin:0 auto 10px}.sheet .life{grid-template-columns:1fr}}
 @media print{
   @page{size:A4;margin:12mm}
   body{background:#fff!important;padding:0}
@@ -564,7 +588,7 @@ body{background-color:#fdf1ea;background-image:
     <div class="paper grain page">
       <div class="sechead"><div class="e">Where Will You Live?</div><h2 class="ransom">すむ場所カタログ</h2><p>場所によって、1か月にかかるお金と、出会えるチャンスがちがうよ。</p></div>
       <div class="grid places" id="placeGrid"></div>
-      <p class="note" style="text-align:center;margin-top:12px">※お金は、わかりやすくした「めやす」です。</p>
+      <p class="note" style="text-align:center;margin-top:12px">※2025年ごろの一人暮らしの平均をもとにした「めやす」です。収入は、税金などを引いたあとの「手取り」。</p>
       <div class="nextbar"><button class="btn ghost" id="backJob">◀ もどる</button><button class="btn big" id="toRoute" disabled>つぎのページ ▶</button></div>
     </div>
   </section>
@@ -646,8 +670,17 @@ body{background-color:#fdf1ea;background-image:
   <!-- なんでなんでチャレンジ -->
   <section class="scr" id="s-naze">
     <div class="paper grain page">
-      <div class="sechead"><div class="e">Why, Why, Why?</div><h2 class="ransom">なんでなんでチャレンジ</h2><p>となりの人と、聞きあいっこしよう。</p></div>
+      <div class="sechead"><div class="e">Why, Why, Why?</div><h2 class="ransom">なんでなんでチャレンジ</h2><p>ゲームからのしつもんに、こたえてみよう。</p></div>
       <div id="nazeBox"></div>
+    </div>
+  </section>
+
+  <!-- [追加] ざっしの方向を決める -->
+  <section class="scr" id="s-zine">
+    <div class="paper grain page">
+      <div class="sechead"><div class="e">Plan Your Magazine</div><h2 class="ransom">どんなざっしにする？</h2><p>タイプ・ふんいき・読んでほしい人・タイトルを決めよう。</p></div>
+      <div id="zineBox"></div>
+      <div class="nextbar"><button class="btn big olive" id="toSheet" disabled>材料シートをつくる ▶</button></div>
     </div>
   </section>
 
@@ -694,15 +727,16 @@ const POWERS = {
   bouken:{n:'冒険心',e:'🧭',c:'#cfe6ee',d:'知らない場所や人に、とびこむ力'},
 };
 
-const PLACES = [
-  {id:'okinawa',e:'🌺',n:'沖縄',en:'Okinawa',c:'#cfe6ee',cd:'#5fa3c2',rent:4,food:3,move:1,
-   chance:'お祭りや地域の人とのつながりがいっぱい。海や自然の中でアイデアがわくかも。'},
-  {id:'tokyo',e:'🗼',n:'東京',en:'Tokyo',c:'#e5d6ee',cd:'#a58bc4',rent:8,food:4,move:1,
-   chance:'オーディションや会社がたくさん。いろんなプロに出会えるチャンス。'},
-  {id:'abroad',e:'✈️',n:'海外',en:'Overseas',c:'#f7e7a8',cd:'#d9a441',rent:8,food:5,move:2,
-   chance:'世界中の人と出会える。ことばや文化を学びながらチャレンジ！'},
+const PLACES = [ /* [変更] 2025年ごろの一人暮らしの平均をもとにした月の生活費（万円） */
+  {id:'okinawa',e:'🌺',n:'沖縄',en:'Okinawa',c:'#cfe6ee',cd:'#5fa3c2',rent:5,food:4,move:3,util:2,other:3,
+   chance:'お祭りや地域の人とのつながりがいっぱい。家賃は安めだけど、車が必要で、給料も少し低め。'},
+  {id:'tokyo',e:'🗼',n:'東京',en:'Tokyo',c:'#e5d6ee',cd:'#a58bc4',rent:8,food:5,move:1,util:2,other:5,
+   chance:'オーディションや会社がたくさん。給料は高めだけど、家賃もいちばん高い。電車で動けるので車はいらない。'},
+  {id:'abroad',e:'✈️',n:'海外',en:'Overseas',c:'#f7e7a8',cd:'#d9a441',rent:18,food:8,move:2,util:3,other:5,
+   chance:'世界中の人と出会える（アメリカやヨーロッパの大きな街の場合）。給料も高いけど、物価はもっと高い！'},
 ];
-PLACES.forEach(p=>p.total=p.rent+p.food+p.move);
+PLACES.forEach(p=>p.total=p.rent+p.food+p.move+p.util+p.other);
+const PLACE_PAY={okinawa:-2,tokyo:1,abroad:8}; /* [追加] 地域による給料のちがい */
 const PL = Object.fromEntries(PLACES.map(p=>[p.id,p]));
 
 const JOBS = [
@@ -820,7 +854,7 @@ const EVENTS = [
  {id:'rent',type:'trip',e:'🏠',power:'junan',
   t:'家賃が上がってしまった…',
   x:'住んでいる部屋の家賃が、来月から1万円上がることに。',
-  kk:'家賃が上がってやりくりを考えたこと',fx:{rent:1},fxText:'生活費が毎月＋1万円',
+  kk:'家賃が上がってやりくりを考えたこと',fx:{rent:2},fxText:'生活費が毎月＋2万円',
   say:'お金のやりくりを考えるチャンス！ 引っ越しを考えてもいいね。'},
  {id:'fail',type:'trip',e:'📮',power:'jizoku',
   t:'{test}に落ちてしまった…',
@@ -1130,10 +1164,15 @@ Object.assign(ILL,{
    ${ME(400,420,.88,{arm:'hip',face:'wow'})}<g transform="translate(436 300) rotate(-8)"><rect width="52" height="66" fill="#fff8f3" stroke="${INK}" stroke-width="2"/><path d="M8 16 h36 M8 30 h30 M8 44 h24" stroke="#8a6a70" stroke-width="2"/></g>
    ${[[110,'#b08572'],[640,'#b08572']].map(([x,c])=>`<rect x="${x}" y="330" width="120" height="16" fill="${c}" stroke="${INK}" stroke-width="2"/><rect x="${x+10}" y="346" width="8" height="70" fill="${c}"/><rect x="${x+102}" y="346" width="8" height="70" fill="${c}"/>`).join('')}`,
  castle:()=>`${castleScene()}${ME(330,430,.95,{arm:'down'})}${person(450,430,.95,{top:'#e0848c',hair:'#4a3036',style:'long',arm:'wave'})}`,
- letter:()=>`<rect width="800" height="450" fill="#3c3458"/>${Array.from({length:30},(_,i)=>`<circle cx="${(i*137)%800}" cy="${(i*71)%180}" r="1.6" fill="#fbeedd" opacity=".7"/>`).join('')}<circle cx="640" cy="90" r="34" fill="#fbeedd"/>
-   <rect y="256" width="800" height="194" fill="#3d5470"/>${waves(286,7,'#fbeedd',.18)}<path d="M0 256 L800 256" stroke="#3c4a52" stroke-width="8"/>
-   ${Array.from({length:14},(_,i)=>`<circle cx="${30+i*58}" cy="248" r="3" fill="#f5d06e"/><path d="M${30+i*58} 268 v${26+(i%3)*10}" stroke="#f5d06e" stroke-width="2" opacity=".35"/>`).join('')}
-   ${ME(330,430,1.05,{arm:'wave',hair:'#4a3a33'})}${person(470,430,1.05,{top:'#e0848c',hair:'#4a3036',style:'long',arm:'wave'})}${heart(400,200,1.4,'#f2b6bf')}`,
+ letter:()=>`<rect width="800" height="450" fill="#3c3458"/>${Array.from({length:30},(_,i)=>`<circle cx="${(i*137)%800}" cy="${(i*71)%180}" r="1.6" fill="#fbeedd" opacity=".7"/>`).join('')}<circle cx="120" cy="80" r="30" fill="#fbeedd"/>
+   <rect y="300" width="800" height="150" fill="#3d5470"/>${waves(326,5,'#fbeedd',.18)}
+   ${ME(230,430,1.15,{arm:'hip',hair:'#4a3a33',face:'wow'})}<rect x="250" y="322" width="22" height="36" rx="4" fill="#2a1a22" stroke="#fbeedd" stroke-width="1.5" transform="rotate(-12 261 340)"/>
+   <g transform="translate(400 70)"><rect width="320" height="250" rx="22" fill="#fff8f3" stroke="${INK}" stroke-width="2.5"/><rect width="320" height="40" rx="20" fill="#f7cdd5"/><rect y="20" width="320" height="20" fill="#f7cdd5"/>
+     <circle cx="28" cy="20" r="12" fill="#e0848c" stroke="${INK}" stroke-width="1.5"/><text x="50" y="27" font-size="18" font-weight="700" fill="${INK}" font-family="sans-serif">ゆうな</text>
+     <rect x="16" y="56" width="230" height="40" rx="14" fill="#fff" stroke="${INK}" stroke-width="1.5"/><text x="30" y="82" font-size="17" fill="${INK}" font-family="sans-serif">ひさしぶり！</text>
+     <rect x="16" y="104" width="270" height="62" rx="14" fill="#fff" stroke="${INK}" stroke-width="1.5"/><text x="30" y="130" font-size="16" fill="${INK}" font-family="sans-serif">こんどの旧盆、沖縄に</text><text x="30" y="154" font-size="16" fill="${INK}" font-family="sans-serif">帰るよ🌺</text>
+     <rect x="150" y="178" width="154" height="40" rx="14" fill="#cfe6d8" stroke="${INK}" stroke-width="1.5"/><text x="166" y="204" font-size="16" fill="${INK}" font-family="sans-serif">まってるね！</text></g>
+   ${heart(360,170,1.3,'#f2b6bf')}`,
  veteran:(p)=>`${placeBg(p)}${ME(400,430,1.15,{arm:'wave',hair:GRAY})}${person(260,430,.95,{top:'#5fa3c2',hair:'#4a3036',style:'short',arm:'up'})}${person(540,430,.95,{top:'#e3b04a',hair:'#8a4a3a',style:'long',arm:'up'})}${sparkles([[330,230],[470,220,'#e0848c']])}`,
  elder:()=>`${sky('#fbe2d6','#fdf1ea')}<rect width="800" height="300" fill="#c99a86"/><rect x="460" y="30" width="300" height="200" fill="#fde0d4" stroke="#9c6f5c" stroke-width="8"/><rect x="464" y="160" width="292" height="66" fill="#7ec3d4"/>
    <rect y="300" width="800" height="150" fill="#dcb4a2"/><g stroke="#c99a86" stroke-width="3">${Array.from({length:10},(_,i)=>`<path d="M0 ${312+i*14} h800"/>`).join('')}</g>
@@ -1169,13 +1208,13 @@ const em=e=>`<span>${e}</span>`;
    共通
    ========================================================= */
 const TABS=['表紙','こども','ゆめ選び','おとな','物語','好き','材料']; /* [変更] 好き・材料を追加 */
-function tabOf(id){return id==='s-start'?0:id==='s-end'?4:id==='s-life'?(S.age<18?1:3):['s-sort','s-kake','s-naze'].includes(id)?5:id==='s-sheet'?6:2}
+function tabOf(id){return id==='s-start'?0:id==='s-end'?4:id==='s-life'?(S.age<18?1:3):['s-sort','s-kake','s-naze'].includes(id)?5:['s-zine','s-sheet'].includes(id)?6:2}
 function show(id){
   if(id!=='s-end')document.querySelectorAll('.conf').forEach(c=>c.remove()); /* [追加] */
   document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id===id));
   const n=tabOf(id);
   $('tabs').innerHTML=TABS.map((t,i)=>`<span class="${i===n?'on':i<n?'done':''}">${t}</span>`).join('');
-  window.scrollTo({top:0,behavior:'smooth'});
+  window.scrollTo(0,0); /* [変更] ページが変わったら、すぐいちばん上へ */
   applyRansom();placeProps();
 }
 function say(t){
@@ -1243,11 +1282,12 @@ let STAGES=[ /* [変更] 短縮モードのため let に */
   {l:'校庭で、かけっこやドッジボール',likes:['athlete','dancer','trainer','fire'],p:'bouken',r:'気づけば、クラスでいちばん足が速くなっていた。'},
   {l:'音楽室で、歌ったりピアノをひいたり',likes:['musician','idol','announcer'],p:'koki',r:'先生が「いい声だね」とほめてくれた。'},
   {l:'自由帳に、絵やまんがをかく',likes:['illust','fashion','gamer','youtuber'],p:'koki',r:'ノートは、自分だけのキャラクターでいっぱいになった。'},
+  {l:'図書室で、本を読む',likes:['researcher','teacher','illust','announcer'],p:'koki',r:'気になる本を読んでいたら、いつのまにかチャイムが鳴っていた。'}, /* [追加] 読書 */
   {l:'給食当番で、みんなに配るのが好き',likes:['chef','nurse','hoiku','carer'],p:'junan',r:'「今日のカレー、おいしいね」 みんなの笑顔がうれしかった。'},
   {l:'係の仕事や、学級会の司会をするのが好き',likes:['teacher','civil','banker','announcer'],p:'jizoku',r:'「〇〇係、たよりになるね」 クラスのみんなに言われて、ちょっとほこらしかった。'},
  ]},
  {age:10,kind:'scene',ill:'summer',ch:'夏休み',title:'10歳の夏休み',text:'セミの声と、まぶしい海。今日はなにをしよう？',opts:[
-  {l:'浜比嘉島の浜で、生きものや空の観察をする',likes:['fisher','researcher','pilot','guide'],p:'koki',r:'拾った貝がらは、図鑑よりずっときれいな色をしていた。'},
+  {l:'近くの海で、生きものや空の観察をする',likes:['fisher','researcher','pilot','guide'],p:'koki',r:'拾った貝がらは、図鑑よりずっときれいな色をしていた。'},
   {l:'近所のにーにーたちの、エイサーの練習についていく',likes:['dancer','musician'],p:'jizoku',r:'太鼓は重くて、腕はぱんぱん。でも、みんなで揃った一打は最高だった！'},
   {l:'おばぁと台所で、サーターアンダギーづくり',likes:['chef','farmer'],p:'junan',r:'形はいびつ。でも、おばぁは「上等さー」と笑ってくれた。'},
   {l:'友だちと、自分たちで考えた遊びをする',likes:['gamer','programmer','ceo','athlete'],p:'bouken',r:'ルールを変えるたびに、もっとおもしろくなった。'},
@@ -1272,11 +1312,7 @@ let STAGES=[ /* [変更] 短縮モードのため let に */
  {age:18,kind:'scene',ill:'start',ch:'旅立ち',title:'{place}で、{job}への一歩をふみだした',text:'「{route}」からスタート。ここからは、1年ごとにいろんなできごとが待っているよ。',
   note:'おかねの帳簿と、出会った人のアルバムもつけていくね。'},
  {age:20,kind:'work'},{age:23,kind:'work'},{age:27,kind:'work'},{age:32,kind:'work'},{age:38,kind:'work'},
- {age:45,kind:'scene',ill:'letter',ch:'45歳',title:'ゆうなから手紙がとどいた',text:'「海中道路、まだあんなにきれい？ こんどの旧盆、帰るよ」',opts:[
-  {l:'旧盆の夜、海中道路まで迎えにいく',p:'rakkan',r:'夜の海中道路。風の向こうから、17歳のころと同じ笑い声がした。'},
-  {l:'返事に、いまの仕事の話を長く書く',p:'koki',r:'便せん3枚。書きながら、自分がこの仕事をどれほど好きか、あらためて知った。'},
-  {l:'ゆうなをさそって、ふたりで新しいことを始める',p:'bouken',r:'45歳のふたりが、はじめての料理教室へ。先生より、ふたりのほうがよく笑っていた。'},
- ]},
+ {age:45,kind:'scene',ill:'letter',ch:'45歳',title:'ゆうなからLINEがとどいた',text:'ピコン。いま{where}でくらしている{nick}のスマホに、ゆうなからメッセージ。「ひさしぶり！ こんどの旧盆、沖縄に帰るよ。海中道路、まだあんなにきれい？」',dyn:'yuna'}, /* [変更] 手紙→LINE、いる場所で選択肢が変わる */
  {age:60,kind:'scene',ill:'veteran',ch:'60歳',title:'ベテランになった',text:'{job}として、いろんなことがあった。これからは、どうすごす？',opts:[
   {l:'若い人たちに、{job}のコツを教える',p:'jizoku',late:'teach',r:'教えた若者のひとりが言った。「あのとき教えてもらったから、続けられました」'},
   {l:'まったく新しいことにちょうせんする',p:'bouken',late:'new',r:'60歳ではじめた{new}。へたっぴでも、毎日がわくわくした。'},
@@ -1310,7 +1346,7 @@ function snap(){return JSON.stringify(S)}
 function enter(v){S.dirty=false;HIST.push({v,snap:snap()});renderView(v)}
 function renderView(v){
   ({start:renderStart,stage:()=>{renderLog();renderStickers();runStage()},place:toPlace,route:toRoute,end:toEnd,
-    sort:toSort,kake:toKake,naze:toNaze,sheet:toSheet})[v](); /* [変更] 好きの章を追加 */
+    sort:toSort,kake:toKake,naze:toNaze,zine:toZine,sheet:toSheet})[v](); /* [変更] 好きの章を追加 */
   if(v!=='start')saveRec();
   $('navbtns').classList.toggle('hide',v==='start');
 }
@@ -1320,7 +1356,7 @@ function goBack(){
   if(HIST.length<=1)return;
   const keep=S.suki; /* [変更] 好きの章では、仕分けなどの進み具合をもどさない */
   HIST.pop();const prev=HIST[HIST.length-1];S=JSON.parse(prev.snap);
-  if(keep&&['end','sort','kake','naze','sheet'].includes(prev.v))S.suki=keep;
+  if(keep&&['end','sort','kake','naze','zine','sheet'].includes(prev.v))S.suki=keep;
   trace('back',{to:prev.v});renderView(prev.v);
 }
 let homeArm=null;
@@ -1387,7 +1423,9 @@ function toPlace(){
       <span class="ledger">
         <div><span>家賃</span><span>${p.rent}万円</span></div>
         <div><span>食費</span><span>${p.food}万円</span></div>
-        <div><span>交通費</span><span>${p.move}万円</span></div>
+        <div><span>交通費・車</span><span>${p.move}万円</span></div>
+        <div><span>電気・水道・スマホ</span><span>${p.util}万円</span></div>
+        <div><span>服・あそび・その他</span><span>${p.other}万円</span></div>
         <div class="total"><span>1か月の合計</span><span>${p.total}万円</span></div>
       </span>
       <span class="chance"><b>✦ チャンス</b><br>${p.chance}</span>
@@ -1401,7 +1439,7 @@ function toPlace(){
   });
 }
 $('backJob').onclick=goBack;$('toRoute').onclick=()=>enter('route');
-function incOf(r,place){return r.inc+(r.good===place?2:0)}
+function incOf(r,place){return Math.round(10+r.inc*0.8)+(r.good===place?2:0)+(PLACE_PAY[place]||0)} /* [変更] 手取りの目安（2025年の初任給の平均をもとに） */
 function toRoute(){
   const j=JB[S.job];show('s-route');
   $('routeTtl').innerHTML=`${j.plain}への道`;$('routeTtl').classList.add('ransom');applyRansom();
@@ -1443,9 +1481,9 @@ function renderMoney(){
   if(S.age>=60){$('money').innerHTML=`<h4>毎月のおかね <em>Household Book</em></h4><div class="memo" style="margin-top:0">仕事をへらして、年金とたくわえでくらしているよ。お金より、だれといっしょにすごすかが大事な年ごろ。</div>`;return}
   const m=money();
   $('money').innerHTML=`<h4>毎月のおかね <em>Household Book</em></h4>
-    <div class="r"><span>🪙 収入</span><b>${m.inc}万円</b></div>
+    <div class="r"><span>🪙 収入（手取り）</span><b>${m.inc}万円</b></div>
     <div class="r"><span>🏠 生活費</span><b>${m.cost}万円</b></div>
-    <div class="det">家賃${m.p.rent+S.rentUp}・食費${m.p.food}・交通費${m.p.move}</div>
+    <div class="det">家賃${m.p.rent+S.rentUp}・食費${m.p.food}・交通${m.p.move}・電気スマホ${m.p.util}・その他${m.p.other}</div>
     <div class="r left ${m.left<0?'neg':''}"><span>${m.left<0?'😣':'🐷'} のこったお金</span><b>${m.left}万円</b></div>
     <div class="memo">${m.left<0?'今はちょっとピンチ。アルバイトでおぎなおう。お金がゴールじゃないから、あせらなくてだいじょうぶ！':'続けるほど、うでが上がって収入も少しずつアップするよ。'}</div>`;
 }
@@ -1479,7 +1517,7 @@ function card(type,ill,title,text,extra=''){
 }
 function sceneStage(st){
   const title=st.title.replace('{place}',PL[S.place].n).replace('{route}',S.route?route(S.job,S.route).n:'');
-  const text=st.text.replace('{place}',PL[S.place].n).replace('{route}',S.route?route(S.job,S.route).n:'');
+  const text=st.text.replace('{where}',PL[S.place].n).replace('{place}',PL[S.place].n).replace('{route}',S.route?route(S.job,S.route).n:'');
   const added=addPerson(st.person);
   const svg=illFor(st.ill,S.place);
   $('stage').innerHTML=card(st.type||'life',svg,title,text,added?`<div class="fx add">✿ 「${st.person.n}」がアルバムに入った！</div>`:'');
@@ -1488,15 +1526,23 @@ function sceneStage(st){
   if(added)setTimeout(()=>sparkle($('evc'),14),280);
   say(st.note||'どうする？ えらんでみてね。');
   let opts=st.opts;
+  if(st.dyn==='yuna'){ /* [追加] いまどこに住んでいるかで、ゆうなとの会い方が変わる */
+    const home=S.place==='okinawa',pn=PL[S.place].n,view=S.place==='tokyo'?'東京の夜景':'外国の街なみ';
+    opts=[home?{l:'空港まで迎えにいって、ふたりで海中道路をドライブする',p:'rakkan',r:'空港で手をふるゆうな。海中道路を走ると、窓の外は17歳のころと同じ青だった。'}
+              :{l:'旧盆に合わせて、自分も沖縄に帰る',p:'rakkan',r:`${pn}から飛行機で帰ってきた。空港で待ちあわせて、ふたりで海中道路をドライブ。窓の外は17歳のころと同じ青だった。`},
+      {l:'LINEで、いまの仕事の話をたくさん送る',p:'koki',r:'気づけば、スクロールしないと読めないくらいの長文に。打ちながら、自分がこの仕事をどれほど好きか、あらためて知った。'},
+      home?{l:'ゆうなをさそって、ふたりで新しいことを始める',p:'bouken',r:'45歳のふたりが、はじめての料理教室へ。先生より、ふたりのほうがよく笑っていた。'}
+          :{l:'ビデオ通話で、おたがいの街を見せあう',p:'bouken',r:`画面の向こうはうるまの海、こちらは${view}。「どっちもいいね」とふたりで笑った。`}];
+  }
   if(st.dyn==='elder'){
     const ps=S.people.filter(p=>p.n!=='家族').slice(-3);
     opts=ps.map(p=>({l:`「${p.n}」に出会ったときの話`,p:'koki',r:`子どもたちは目をかがやかせて聞いた。「出会いって、すごいね！」`}));
     const tr=S.trips[0];
     opts.push({l:tr?`「${tr}」ときの話`:'学芸会でセリフをわすれた話',p:'rakkan',r:'「失敗しても、そこから新しい道がひらけたんだよ」 子どもたちは、しんけんにうなずいた。'});
   }
-  if(!opts){nextButton(st);return}
+  if(!opts){nextButton(st,false);return} /* [変更] 選択肢のない場面ではスクロールしない */
   $('choices').innerHTML=`<div class="q">${S.age}歳の{nick}は――</div>`.replace('{nick}',S.nick?escapeHtml(S.nick):'きみ')+opts.map((o,i)=>
-    `<button class="ticket ${['cont','route','move','cont'][i%4]}" data-i="${i}"><span class="ic">${em('abcde'[i])}</span><span>${fill(o.l)}</span></button>`).join('');
+    `<button class="ticket ${['cont','route','move','cont'][i%4]}" data-i="${i}"><span class="ic">${em('abcdef'[i])}</span><span>${fill(o.l)}</span></button>`).join('');
   $('choices').querySelectorAll('.ticket').forEach(b=>b.onclick=()=>{
     const o=opts[+b.dataset.i];
     if(o.p)S.powers[o.p]++;
@@ -1510,14 +1556,14 @@ function sceneStage(st){
     nextButton(st);
   });
 }
-function nextButton(st){
+function nextButton(st,scroll=true){
   const nx=STAGES[S.stage+1];
   if(st.last){$('advance').innerHTML=`<button class="btn big olive" id="nextBtn">わたしの100年ストーリーを見る ▶</button>`;$('nextBtn').onclick=()=>enter('end');
     say('100歳、おめでとう！ きみだけの<b>人生ストーリー</b>ができたよ。');confetti();return}
   const label=nx.kind==='select'?'職業カタログをひらく ▶':`${nx.age}歳へすすむ ▶`;
   $('advance').innerHTML=`<button class="btn big" id="nextBtn">${label}</button>`;
   $('nextBtn').onclick=()=>{S.stage++;enter('stage')};
-  $('advance').scrollIntoView({behavior:'smooth',block:'center'});
+  if(scroll)$('advance').scrollIntoView({behavior:'smooth',block:'center'});
 }
 
 /* ---- おとなのできごと（20〜38歳） ---- */
@@ -1527,7 +1573,7 @@ function pickEvent(){
   const want=PATTERN[Math.min(S.used.length,4)];
   const ok=e=>!S.used.includes(e.id)&&(!e.onlyIn||e.onlyIn.includes(S.place))&&(!e.notIn||!e.notIn.includes(S.place));
   let pool=EVENTS.filter(e=>ok(e)&&(want==='any'||e.type===want));
-  const wd=pool.filter(e=>doorFor(e));if(wd.length&&Math.random()<.6)pool=wd;
+  const wd=pool.filter(e=>{const d=doorFor(e);return d&&!d.job});if(wd.length&&Math.random()<.5)pool=wd; /* [変更] しごとが変わる扉を優先しない */
   if(!pool.length)pool=EVENTS.filter(ok);
   return pool[Math.floor(Math.random()*pool.length)];
 }
@@ -1560,10 +1606,11 @@ function workYear(){
 function renderChoices(e){
   const d=doorFor(e);
   let h=`<div class="q">これから、どうする？</div>`;
-  if(d)h+=`<button class="ticket door" data-a="door"><span class="ic">${em('🚪')}</span><span>新しい扉：${d.job&&e.door.teach?'教えるよろこびに気づいて、学校の先生をめざす':e.doorLabel}<small>${doorDesc(d)}</small></span></button>`;
+  /* [変更] 「そのまま続ける」を先頭に。新しい扉はいちばん下で、しごとが変わることをはっきり書く */
   h+=`<button class="ticket cont" data-a="cont"><span class="ic">${em('▶️')}</span><span>そのまま続ける<small>今の道で、コツコツがんばる（持続性）</small></span></button>`;
   h+=`<button class="ticket route" data-a="route"><span class="ic">${em('🔁')}</span><span>ルートを変える<small>${JB[S.job].n}への、べつの道をためす（柔軟性）</small></span></button>`;
   h+=`<button class="ticket move" data-a="move"><span class="ic">${em('🏠')}</span><span>引っ越す<small>すむ場所を変えてみる（冒険心）</small></span></button>`;
+  if(d)h+=`<button class="ticket door" data-a="door"><span class="ic">${em('🚪')}</span><span>新しい扉：${d.job&&e.door.teach?'教えるよろこびに気づいて、学校の先生をめざす':e.doorLabel}<small>${doorDesc(d)}</small>${d.job?`<em class="warn">⚠ えらぶと、しごとが「${JB[d.job].plain}」にかわるか決められるよ</em>`:''}</span></button>`;
   $('choices').innerHTML=h;$('picker').className='picker';
   $('choices').querySelectorAll('.ticket').forEach(b=>b.onclick=()=>choose(b.dataset.a,d));
 }
@@ -1582,6 +1629,22 @@ function choose(a,d){
   const rec=v=>{S.choices.push({age:S.age,kind:'work',ev:e.id,action:a,value:v||''});trace('work',{event:e.id,action:a,value:v||''})}; /* [追加] */
   if(a==='cont'){rec();S.streak++;S.powers.jizoku++;setChoice('そのまま続けた');
     return afterWork(['続けるのも、すごい力！ コツコツが、うでをみがいていくよ。','その調子！ 続けた分だけ、収入も少しアップ！','あきらめないって、かっこいいね！'][S.used.length%3])}
+  if(a==='door'&&d.job&&!S._doorOK){ /* [追加] しごとが変わる扉は、もう一度たしかめる */
+    const cur=JB[S.job].plain,nw=JB[d.job].plain,hb=(typeof HIRAMEKI!=='undefined'&&HIRAMEKI[e.id])?HIRAMEKI[e.id].n:nw;
+    $('picker').innerHTML=`<div class="t2">しごとを「${cur}」から「${nw}」にかえる？</div><div class="opts">
+      <button class="ticket door" data-v="change"><span class="ic">${em(JB[d.job].e)}</span><span>「${nw}」にかえる<small>しごとがかわるよ（好奇心）</small></span></button>
+      <button class="ticket cont" data-v="hobby"><span class="ic">${em('🌱')}</span><span>「${cur}」は続けて、休みの日に「${hb}」を楽しむ<small>しごとはそのまま（好奇心）</small></span></button></div>
+      <button class="back" type="button">← やっぱりやめる</button>`;
+    $('picker').className='picker on';
+    $('picker').querySelector('[data-v=change]').onclick=()=>{S._doorOK=true;choose('door',d);S._doorOK=false};
+    $('picker').querySelector('[data-v=hobby]').onclick=()=>{
+      S.choices.push({age:S.age,kind:'work',ev:e.id,action:'door_hobby',value:d.job});trace('work',{event:e.id,action:'door_hobby',value:d.job});
+      S.powers.koki++;S.streak++;setChoice(`「${cur}」は続けて、休みの日に「${hb}」を楽しむことにした`);
+      afterWork('好きなことは、しごとにしなくても大切にできるね。新しい「好き」がふえたよ！')};
+    $('picker').querySelector('.back').onclick=()=>$('picker').className='picker';
+    $('picker').scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
   if(a==='door'){
     rec(d.job||d.move||d.route);
     S.powers.koki++;
@@ -1724,7 +1787,6 @@ function toSort(){
   buildDeck();show('s-sort');
   say('ゲームで出会ったものも、カードになって出てくるよ（<b>ゲームで出会った</b>のしるし）。<br>ワクワク・ふつう・ニガテ、思ったとおりに分けてね。正解はないよ。');
   renderSort();
-  setTimeout(()=>{const r=$('sortCount').getBoundingClientRect();window.scrollTo({top:window.scrollY+r.top-12,behavior:'smooth'})},400);
 }
 function renderSort(){
   const K=suki();const left=K.deck.filter(c=>!K.bins[c.id]);
@@ -1836,25 +1898,25 @@ function nazeCard(){const K=suki();return cardById(K.kake.sel[0])}
 function renderNaze(){
   const K=suki();const L=K.naze.length-1;const w=WHY[L];const ans=K.naze[L];const c=nazeCard();
   const q=w.q.replace('{c}',c?c.n:'それ');
-  say(`<b>👫 となりの人に聞いてもらおう。</b><br>聞く人は、下の「しつもん」を読んでね。こたえる人がタップしても、聞いた人がかわりにタップしてもOK。`);
+  say(`ゲームから<b>しつもん</b>がとどいたよ。<br>あてはまるものをタップしてね。ひとこと書いてもいいし、書かなくてもOK。`); /* [変更] となりの人→ゲームからの質問 */
   $('nazeBox').innerHTML=`
     <div class="lvl">${WHY.map((_,i)=>`<span class="${i===L?'on':i<L?'done':''}">${i+1}</span>`).join('')}</div>
     <div class="titlebig" style="margin:0 0 14px"><small>きみのかたがき</small>${escapeHtml(K.kake.title)}</div>
-    <div class="ask"><span class="ae">👫</span><div><b>${L+1}回目の「なんで」 — となりの人が、こう聞いてね</b><span class="q">「${escapeHtml(q)}」</span></div></div>
+    <div class="ask"><span class="ae">💌</span><div><b>しつもん ${L+1} / 3</b><span class="q">「${escapeHtml(q)}」</span></div></div>
     <p class="nazehint">${w.hint}</p>
     <div class="chips3">${w.chips.map(ch=>`<button type="button" class="chip2 ${ans.chips.includes(ch)?'on':''}" data-v="${ch}">${ch}</button>`).join('')}</div>
     <input class="freein" id="nazeText" maxlength="40" placeholder="ひとこと（書かなくてもOK）" value="${escapeHtml(ans.text)}">
     <div class="nextbar">
       ${L<2?`<button type="button" class="btn big" id="nzNext">つぎの「なんで」 ▶</button>`:''}
-      <button type="button" class="btn big ${L<2?'ghost':'olive'}" id="nzDone">${L<2?'ここまででOK':'できた！ 材料シートへ ▶'}</button>
+      <button type="button" class="btn big ${L<2?'ghost':'olive'}" id="nzDone">${L<2?'ここまででOK':'できた！ つぎへ ▶'}</button>
     </div>`;
   const ok=()=>ans.chips.length||ans.text.trim();
   const upd=()=>{if($('nzNext'))$('nzNext').disabled=!ok();$('nzDone').disabled=!ok()};
   $('nazeBox').querySelectorAll('.chip2').forEach(b=>b.onclick=()=>{const v=b.dataset.v;const i=ans.chips.indexOf(v);if(i<0)ans.chips.push(v);else ans.chips.splice(i,1);b.classList.toggle('on');trace('naze_chip',{lv:L+1,chip:v,on:i<0});upd()});
   $('nazeText').oninput=e=>{ans.text=e.target.value;upd()};
   $('nazeText').onchange=()=>trace('naze_text',{lv:L+1,text:ans.text});
-  if($('nzNext'))$('nzNext').onclick=()=>{K.naze.push({chips:[],text:''});trace('naze_next',{lv:L+2});renderNaze();window.scrollTo({top:0,behavior:'smooth'})};
-  $('nzDone').onclick=()=>{K.t.naze1=Date.now();saveRec();enter('sheet')};
+  if($('nzNext'))$('nzNext').onclick=()=>{K.naze.push({chips:[],text:''});trace('naze_next',{lv:L+2});renderNaze();window.scrollTo(0,0)};
+  $('nzDone').onclick=()=>{K.t.naze1=Date.now();saveRec();enter('zine')}; /* [変更] ざっしの方向決めへ */
   upd();
 }
 
@@ -1871,64 +1933,151 @@ function interviewCands(){
   return out;
 }
 function whyLines(){const K=suki();return K.naze.map((a,i)=>({q:['なんで好き？','どんなとき？','どんな気持ち？'][i],a:[a.chips.join('・'),a.text.trim()?`「${a.text.trim()}」`:''].filter(Boolean).join(' ')})).filter(x=>x.a)}
+/* ---------- [追加] ざっしの方向 ---------- */
+const ZTYPES=[
+ {id:'zukan',e:'📖',n:'ずかん',d:'しらべたことを、図鑑みたいにまとめる',w:'ずかん'},
+ {id:'interview',e:'🎤',n:'インタビュー',d:'人に話を聞いて、記事にする',w:'インタビュー'},
+ {id:'guide',e:'🗺️',n:'ガイドブック',d:'おすすめの場所やお店をしょうかいする',w:'ガイドブック'},
+ {id:'howto',e:'🍳',n:'つくりかた',d:'レシピや作り方を、手順でしょうかいする',w:'つくりかたブック'},
+ {id:'news',e:'📰',n:'しんぶん',d:'できごとやニュースを記事にする',w:'しんぶん'},
+ {id:'story',e:'💭',n:'ものがたり',d:'物語やまんがで伝える',w:'ものがたり'},
+];
+const ZMOODS=['🎀 かわいい','🕶️ かっこいい','📻 レトロ・おしゃれ','🌿 ほっこり','🔮 ふしぎ','🌈 カラフル・元気'];
+const ZREADERS=['👫 友だち','👨‍👩‍👧 家族','🧸 小さい子','🏝️ ちがう町の子','🔭 未来のわたし','🏘️ まちの大人'];
+function zine(){const K=suki();if(!K.zine)K.zine={type:'',mood:'',reader:'',title:'',method:''};return K.zine}
+function toZine(){const K=suki();show('s-zine');K.t.zine0=K.t.zine0||Date.now();if(!K.sheet.pen)K.sheet.pen=S.nick;
+  say('いよいよ<b>きみのざっし</b>の方向を決めよう！<br>ぜんぶタップでえらべるよ。タイトルは、じぶんで書いてもOK。');renderZine()}
+function ztitleCands(){
+  const K=suki(),Z=zine();const sel=K.kake.sel.map(cardById).filter(Boolean);const t=ZTYPES.find(x=>x.id===Z.type);const w=t?t.w:'マガジン';
+  const out=[];const push=x=>{if(x&&!out.includes(x))out.push(x)};
+  push(`${K.kake.title}マガジン`);
+  if(sel[0])push(`月刊 ${sel[0].n}`);
+  if(sel[0])push(`${K.sheet.pen||S.nick}の${sel[0].n}${w}`);
+  if(sel[1])push(`${sel[0].n}と${sel[1].n}の${w}`);
+  return out.slice(0,4);
+}
+function renderZine(){
+  const Z=zine();
+  $('zineBox').innerHTML=`
+    <div class="zq">① どんなタイプのざっし？</div>
+    <div class="ztypes">${ZTYPES.map(t=>`<button type="button" class="ztype ${Z.type===t.id?'on':''}" data-v="${t.id}"><span class="ze">${t.e}</span><b>${t.n}</b><span class="d">${t.d}</span></button>`).join('')}</div>
+    <div class="zq">② ふんいきは？<small>えらばなくてもOK</small></div>
+    <div class="chips3">${ZMOODS.map(m=>`<button type="button" class="chip2 ${Z.mood===m?'on':''}" data-k="mood" data-v="${m}">${m}</button>`).join('')}</div>
+    <div class="zq">③ だれに読んでほしい？<small>えらばなくてもOK</small></div>
+    <div class="chips3">${ZREADERS.map(m=>`<button type="button" class="chip2 ${Z.reader===m?'on':''}" data-k="reader" data-v="${m}">${m}</button>`).join('')}</div>
+    <div class="zq">④ ざっしのタイトル</div>
+    <div class="cands">${ztitleCands().map(t=>`<button type="button" class="cand ${Z.title===t&&Z.method==='cand'?'on':''}" data-t="${escapeHtml(t)}">${escapeHtml(t)}</button>`).join('')}</div>
+    <input class="freein" id="zFree" maxlength="24" style="margin-top:8px" placeholder="じぶんでつけるなら、ここに書いてね" value="${Z.method==='free'?escapeHtml(Z.title):''}">`;
+  $('zineBox').querySelectorAll('.ztype').forEach(b=>b.onclick=()=>{Z.type=b.dataset.v;if(Z.method==='cand')Z.title='';trace('zine_type',{v:Z.type});renderZine()});
+  $('zineBox').querySelectorAll('.chip2').forEach(b=>b.onclick=()=>{const k=b.dataset.k;Z[k]=Z[k]===b.dataset.v?'':b.dataset.v;trace('zine_'+k,{v:Z[k]});renderZine()});
+  $('zineBox').querySelectorAll('.cand').forEach(b=>b.onclick=()=>{Z.title=b.dataset.t;Z.method='cand';trace('zine_title',{v:Z.title,method:'cand'});renderZine()});
+  const f=$('zFree');f.oninput=()=>{const v=f.value.trim();if(v){Z.title=v;Z.method='free'}else if(Z.method==='free'){Z.title='';Z.method=''}
+    $('zineBox').querySelectorAll('.cand').forEach(c=>c.classList.toggle('on',Z.method==='cand'&&c.dataset.t===Z.title));$('toSheet').disabled=!(Z.type&&Z.title)};
+  f.onchange=()=>trace('zine_title',{v:Z.title,method:Z.method});
+  $('toSheet').disabled=!(Z.type&&Z.title);
+}
+$('toSheet').onclick=()=>{suki().t.zine1=Date.now();saveRec();enter('sheet')};
+
+/* ---------- 材料シート（ゲームの記録つき） ---------- */
+function lifeLines(){ /* 100年のきろく：選んだことのある場面 */
+  return S.album.filter(a=>a.c||a.a===0||a.a===100).map(a=>({age:a.a,t:a.t.replace(/[！。…]$/,''),c:(a.c||'').replace(/^→ /,'')}));
+}
+function gameFacts(){
+  const top=Object.entries(S.powers).sort((a,b)=>b[1]-a[1])[0][0];
+  return {dream:JB[S.start.job].plain,job:JB[S.job].plain,jobE:JB[S.job].e,place:PL[S.workPlace||S.place].n,
+    people:S.people.filter(p=>p.n!=='家族').map(p=>p.n),power:POWERS[top].e+POWERS[top].n,powerName:POWERS[top].n,story:storySentence()};
+}
 function toSheet(){
   const K=suki();show('s-sheet');K.t.sheet0=K.t.sheet0||Date.now();
   if(!K.sheet.pen)K.sheet.pen=S.nick;
   K.sheet.cands=interviewCands();
-  say('これが、きみの<b>ざっしの材料シート</b>！<br>取材してみたい人・しらべてみたいことを、タップしてえらんでね（いくつでもOK）。');
+  say('これが、きみの<b>ざっしの材料シート</b>！ ゲームで歩いた100年も入っているよ。<br>取材してみたい人・しらべてみたいことを、タップしてえらんでね。');
   renderSheet();saveRec();
 }
 function renderSheet(){
-  const K=suki();const sel=K.kake.sel.map(cardById).filter(Boolean);const j=JB[S.job];
+  const K=suki(),Z=zine();const sel=K.kake.sel.map(cardById).filter(Boolean);const G=gameFacts();const t=ZTYPES.find(x=>x.id===Z.type);
   $('sheet').innerHTML=`
     <div class="sh-h"><b>ざっしの材料シート</b><span>My Magazine Notes</span></div>
+    <div class="art2"><div class="scene">${illFor('century',S.place)}</div><div class="bd">${G.jobE}</div></div>
     <div class="sec"><div class="sl">✎ ペンネーム（かえてもOK）</div><input class="pen" id="penIn" maxlength="12" value="${escapeHtml(K.sheet.pen)}"></div>
-    <div class="sec"><div class="sl">✿ ざっしのテーマ（きみのかたがき）</div><div class="theme">${escapeHtml(K.kake.title)}</div></div>
+    <div class="sec"><div class="sl">✿ ざっしのタイトル</div><div class="ztitle">${escapeHtml(Z.title)}</div>
+      <div class="tags">${t?`<span>${t.e} ${t.n}</span>`:''}${Z.mood?`<span>${Z.mood}</span>`:''}${Z.reader?`<span>読む人：${Z.reader}</span>`:''}</div></div>
+    <div class="sec"><div class="sl">✿ テーマ（きみのかたがき）</div><div class="theme">${escapeHtml(K.kake.title)}</div></div>
     <div class="sec"><div class="sl">✿ 好きのカード</div><div class="cardrow">${sel.map(c=>`<span>${c.e} ${c.n}</span>`).join('<b style="align-self:center">×</b>')}</div></div>
-    <div class="sec"><div class="sl">✿ 好きのりゆう（なんでなんで）</div><ul class="why sv">${whyLines().map(l=>`<li><b>${l.q}</b> → ${escapeHtml(l.a)}</li>`).join('')}</ul></div>
+    <div class="sec"><div class="sl">✿ 好きのりゆう</div><ul class="why sv">${whyLines().map(l=>`<li><b>${l.q}</b> → ${escapeHtml(l.a)}</li>`).join('')}</ul></div>
     <div class="sec"><div class="sl">✿ 取材してみたい人・しらべてみたいこと</div>
-      <div class="picks">${K.sheet.cands.map(t=>`<button type="button" class="pick ${K.sheet.picks.includes(t)?'on':''}" data-t="${escapeHtml(t)}">${escapeHtml(t)}</button>`).join('')}</div>
+      <div class="picks">${K.sheet.cands.map(x=>`<button type="button" class="pick ${K.sheet.picks.includes(x)?'on':''}" data-t="${escapeHtml(x)}">${escapeHtml(x)}</button>`).join('')}</div>
       <input class="freein" id="pickFree" maxlength="40" style="margin-top:8px" placeholder="ほかにあれば（書かなくてもOK）" value="${escapeHtml(K.sheet.free)}"></div>
-    <div class="sec"><div class="sl">✿ ゲームの中のわたし</div><div class="story1">${escapeHtml(storySentence())}</div></div>`;
+    <div class="sec"><div class="sl">✿ ゲームの中のわたし</div>
+      <div class="sv" style="font-size:15.5px">18歳のゆめ：<b>${G.dream}</b> → いま：<b>${G.place}の${G.job}</b>　｜　いちばん使った力：<b>${G.power}</b></div>
+      <div class="story1" style="margin:4px 0">${escapeHtml(G.story)}</div>
+      ${G.people.length?`<div class="people">${G.people.map(n=>`<span>🤝 ${escapeHtml(n)}</span>`).join('')}</div>`:''}</div>
+    <div class="sec"><div class="sl">✿ 100年のきろく（えらんだこと）</div>
+      <ul class="life">${lifeLines().map(l=>`<li><b>${l.age}歳</b>${escapeHtml(l.t)}${l.c?` <i>→ ${escapeHtml(l.c)}</i>`:''}</li>`).join('')}</ul></div>`;
   $('penIn').oninput=e=>{K.sheet.pen=e.target.value};
   $('pickFree').oninput=e=>{K.sheet.free=e.target.value};
   $('pickFree').onchange=()=>{trace('pick_free',{text:K.sheet.free});saveRec()};
-  $('sheet').querySelectorAll('.pick').forEach(b=>b.onclick=()=>{const t=b.dataset.t;const i=K.sheet.picks.indexOf(t);if(i<0)K.sheet.picks.push(t);else K.sheet.picks.splice(i,1);b.classList.toggle('on');trace('pick',{t,on:i<0});saveRec()});
+  $('sheet').querySelectorAll('.pick').forEach(b=>b.onclick=()=>{const x=b.dataset.t;const i=K.sheet.picks.indexOf(x);if(i<0)K.sheet.picks.push(x);else K.sheet.picks.splice(i,1);b.classList.toggle('on');trace('pick',{t:x,on:i<0});saveRec()});
 }
 function sheetText(){
-  const K=suki();const sel=K.kake.sel.map(cardById).filter(Boolean);
+  const K=suki(),Z=zine();const sel=K.kake.sel.map(cardById).filter(Boolean);const G=gameFacts();const t=ZTYPES.find(x=>x.id===Z.type);
   const picks=K.sheet.picks.concat(K.sheet.free.trim()?[K.sheet.free.trim()]:[]);
-  return [`【ざっしの材料シート】`,`ペンネーム：${K.sheet.pen}`,`ざっしのテーマ（かたがき）：${K.kake.title}`,
-    `好きなこと：${sel.map(c=>c.n).join('、')}`,`好きなりゆう：`,...whyLines().map(l=>`・${l.q} → ${l.a}`),
-    `取材してみたい人・しらべてみたいこと：`,...(picks.length?picks.map(p=>`・${p.replace(/^しらべたい：/,'')}`):['・（まだ決めていない）']),
-    `ゲームの中のわたし：${storySentence()}`,``,
-    `（AIへのおねがいの例）小学生の「${K.kake.title}」というテーマのざっしづくりを手伝ってください。取材でつかえる質問を、小学生にわかることばで5つ考えてください。`].join('\n');
+  const mood=Z.mood?Z.mood.replace(/^\S+\s/,''):'',reader=Z.reader?Z.reader.replace(/^\S+\s/,''):'';
+  return [`【ざっしの材料シート】`,`ペンネーム：${K.sheet.pen}`,
+    `ざっしのタイトル：${Z.title}`,`ざっしのタイプ：${t?t.n+'（'+t.d+'）':''}`,`ふんいき：${mood||'（とくになし）'}`,`読んでほしい人：${reader||'（とくになし）'}`,
+    `テーマ（かたがき）：${K.kake.title}`,`好きなこと：${sel.map(c=>c.n).join('、')}`,`好きなりゆう：`,...whyLines().map(l=>`・${l.q} → ${l.a}`),
+    `取材してみたい人・しらべてみたいこと：`,...(picks.length?picks.map(x=>`・${x.replace(/^しらべたい：/,'')}`):['・（まだ決めていない）']),
+    `ゲームの中のわたし：18歳のゆめは「${G.dream}」→ いまは「${G.place}の${G.job}」。いちばん使った力は「${G.powerName}」。`,
+    `${G.story}`,G.people.length?`ゲームでつながった人：${G.people.join('、')}`:'',
+    `100年のきろく：`,...lifeLines().map(l=>`・${l.age}歳 ${l.t}${l.c?' → '+l.c:''}`),``,
+    `（AIへのおねがいの例）わたしは小学生です。上の材料をもとに、「${Z.title}」という${t?t.n:''}タイプのざっし（4〜8ページ）をつくりたいです。${mood?mood+'なふんいきで、':''}${reader?reader+'に読んでもらうつもりです。':''}①ページの組み立て（表紙・もくじ・特集など）、②取材でつかえる質問を5つ、③表紙のキャッチコピーを3つ、小学生にわかることばで考えてください。`
+  ].filter(x=>x!=='').join('\n');
 }
 $('shPrint').onclick=()=>{trace('print');saveRec();try{window.print()}catch(e){$('copied').textContent='いんさつできませんでした。画像にして保存してね。'}};
 $('shCopy').onclick=async()=>{const t=sheetText();trace('copy');saveRec();
   try{await navigator.clipboard.writeText(t);$('copied').textContent='コピーしたよ！ AIの入力らんに、はりつけてね。'}
   catch(e){$('imgOut').innerHTML=`<p class="note">下の文を長おしして、ぜんぶえらんでコピーしてね。</p><textarea class="freein" style="height:220px">${escapeHtml(t)}</textarea>`}};
-$('shImg').onclick=()=>{trace('image');saveRec();const url=sheetImage();
+$('shImg').onclick=async()=>{trace('image');saveRec();$('imgOut').innerHTML='<p class="note">画像をつくっています…</p>';
+  const url=await sheetImage();
   $('imgOut').innerHTML=`<p class="note">画像を長おしして「写真に保存」してね。</p><img alt="ざっしの材料シート" src="${url}"><br><a class="nav" style="display:inline-block;margin-top:8px;text-decoration:none" download="zasshi-zairyo.png" href="${url}">画像をダウンロード</a>`};
-function sheetImage(){
-  const K=suki();const W=1080,H=1500;const cv=document.createElement('canvas');cv.width=W;cv.height=H;const g=cv.getContext('2d');
+function svgImg(svg){return new Promise(res=>{const im=new Image();im.onload=()=>res(im);im.onerror=()=>res(null);
+  im.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg.replace('<svg viewBox','<svg width="800" height="450" viewBox'))})}
+async function sheetImage(){
+  const K=suki(),Z=zine();const G=gameFacts();const t=ZTYPES.find(x=>x.id===Z.type);
+  const W=1080,H=4200;const cv=document.createElement('canvas');cv.width=W;cv.height=H;const g=cv.getContext('2d');
   const F='"Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans",sans-serif',M='"Kaisei Decol","Hiragino Mincho ProN",serif';
-  g.fillStyle='#fdf1ea';g.fillRect(0,0,W,H);
-  g.fillStyle='rgba(242,170,182,.18)';for(let x=0;x<W;x+=76)g.fillRect(x,0,38,H);for(let y=0;y<H;y+=76)g.fillRect(0,y,W,38);
-  g.fillStyle='#fff';g.fillRect(50,50,W-100,H-100);g.strokeStyle='#e0848c';g.lineWidth=4;g.strokeRect(50,50,W-100,H-100);
-  g.setLineDash([10,8]);g.strokeRect(66,66,W-132,H-132);g.setLineDash([]);
   let y=150;const X=110,MW=W-220;
-  const wrap=(t,font,size,color,lh)=>{g.font=`${size}px ${font}`;g.fillStyle=color;let line='';for(const ch of [...t]){if(ch==='\n'||g.measureText(line+ch).width>MW){g.fillText(line,X,y);y+=lh;line=ch==='\n'?'':ch}else line+=ch}if(line){g.fillText(line,X,y);y+=lh}};
-  wrap('ざっしの材料シート',M,56,'#c2414a',70);y+=10;
-  const sec=(lab,txt,size=34)=>{y+=14;wrap('✿ '+lab,M,28,'#c2414a',40);wrap(txt,F,size,'#4a3036',size*1.5)};
-  sec('ペンネーム',K.sheet.pen||'');
-  sec('ざっしのテーマ（かたがき）',K.kake.title,42);
+  const wrap=(txt,font,size,color,lh,maxw=MW,x=X)=>{g.font=`${size}px ${font}`;g.fillStyle=color;let line='';for(const ch of [...txt]){if(ch==='\n'||g.measureText(line+ch).width>maxw){g.fillText(line,x,y);y+=lh;line=ch==='\n'?'':ch}else line+=ch}if(line){g.fillText(line,x,y);y+=lh}};
+  const sec=(lab,txt,size=32,maxw=MW)=>{y+=16;wrap('✿ '+lab,M,28,'#c2414a',40,maxw);wrap(txt,F,size,'#4a3036',size*1.5,maxw)};
+  // 本文（いったん大きいキャンバスに描いて、あとで切りとる）
+  g.fillStyle='#fff';g.fillRect(0,0,W,H);
+  const im=await svgImg(illFor('century',S.place));
+  wrap('ざっしの材料シート',M,54,'#c2414a',66,560);
+  const artY=60;
+  if(im){g.save();g.beginPath();g.ellipse(W-110-170,artY+150,170,96,0,0,Math.PI*2);g.clip();g.drawImage(im,W-110-340,artY+54,340,192);g.restore();
+    g.strokeStyle='#e0848c';g.lineWidth=6;g.beginPath();g.ellipse(W-110-170,artY+150,170,96,0,0,Math.PI*2);g.stroke();
+    g.fillStyle='#fff';g.beginPath();g.arc(W-120,artY+230,40,0,Math.PI*2);g.fill();g.stroke();g.font='44px sans-serif';g.textAlign='center';g.fillText(G.jobE,W-120,artY+246);g.textAlign='left';}
+  const NW=560;
+  sec('ペンネーム',K.sheet.pen||'',34,NW);
+  sec('ざっしのタイトル',Z.title,42,NW);
+  wrap([t?t.e+' '+t.n:'',Z.mood,Z.reader?'読む人：'+Z.reader:''].filter(Boolean).join('　'),F,26,'#8a6a40',38,NW);
+  y=Math.max(y,artY+300);
+  sec('テーマ（かたがき）',K.kake.title,36);
   sec('好きのカード',K.kake.sel.map(cardById).filter(Boolean).map(c=>c.e+' '+c.n).join('  ×  '));
-  sec('好きのりゆう',whyLines().map(l=>`${l.q} → ${l.a}`).join('\n')||'—',30);
+  sec('好きのりゆう',whyLines().map(l=>`${l.q} → ${l.a}`).join('\n')||'—',28);
   const picks=K.sheet.picks.concat(K.sheet.free.trim()?[K.sheet.free.trim()]:[]);
-  sec('取材・しらべてみたいこと',picks.map(p=>'・'+p.replace(/^しらべたい：/,'')).join('\n')||'—',30);
-  sec('ゲームの中のわたし',storySentence(),26);
-  return cv.toDataURL('image/png');
+  sec('取材・しらべてみたいこと',picks.map(x=>'・'+x.replace(/^しらべたい：/,'')).join('\n')||'—',28);
+  sec('ゲームの中のわたし',`18歳のゆめ：${G.dream} → いま：${G.place}の${G.job}\nいちばん使った力：${G.power}\n${G.story}`,26);
+  if(G.people.length)wrap('つながった人：'+G.people.join('、'),F,24,'#d66a83',36);
+  sec('100年のきろく（えらんだこと）',lifeLines().map(l=>`${l.age}歳　${l.t}${l.c?' → '+l.c:''}`).join('\n'),23);
+  const h=Math.min(H,y+80);
+  // 枠つきの完成画像
+  const out=document.createElement('canvas');out.width=W;out.height=h+100;const o=out.getContext('2d');
+  o.fillStyle='#fdf1ea';o.fillRect(0,0,W,h+100);o.fillStyle='rgba(242,170,182,.18)';for(let x=0;x<W;x+=76)o.fillRect(x,0,38,h+100);for(let yy=0;yy<h+100;yy+=76)o.fillRect(0,yy,W,38);
+  o.fillStyle='#fff';o.fillRect(50,50,W-100,h);o.drawImage(cv,0,0,W,h,0,50,W,h);
+  o.fillStyle='#fdf1ea';o.fillRect(0,0,50,h+100);o.fillRect(W-50,0,50,h+100);
+  o.strokeStyle='#e0848c';o.lineWidth=4;o.strokeRect(50,50,W-100,h);o.setLineDash([10,8]);o.strokeRect(66,66,W-132,h-32);
+  return out.toDataURL('image/png');
 }
 $('again2').onclick=()=>{saveRec(true);toStart()};
 
@@ -1945,7 +2094,7 @@ function buildRec(final){
   const work=(S.choices||[]).filter(x=>x.kind==='work');
   const bins=K.bins||{};const by=b=>Object.keys(bins).filter(k=>bins[k]===b);
   const mins=(a,b)=>a&&b?Math.round((b-a)/600)/100:'';
-  return {session:S.sid,id:S.rid,version:'yume-retro+suki-1',startedAt:new Date(S.t0).toISOString(),updatedAt:new Date().toISOString(),shortMode:!!S.short,
+  return {session:S.sid,id:S.rid,version:'yume-retro+suki-2',startedAt:new Date(S.t0).toISOString(),updatedAt:new Date().toISOString(),shortMode:!!S.short,
     child:{age6:ch(6),age10:ch(10),age12:ch(12),age15:ch(15),age17:ch(17)},
     at18:S.start||null,work:work.map(w=>({age:w.age,event:w.ev,action:w.action,value:w.value||''})),
     doors:work.filter(w=>w.action==='door').length,routeChanges:work.filter(w=>w.action==='route').length,moves:work.filter(w=>w.action==='move').length,
@@ -1955,12 +2104,13 @@ function buildRec(final){
     kake:K.kake?{cards:K.kake.sel,title:K.kake.title,method:K.kake.method,candidates:K.kake.cands}:null,
     naze:(K.naze||[]).map((a,i)=>({level:i+1,chips:a.chips,text:a.text})),
     interview:K.sheet?{picks:K.sheet.picks,free:K.sheet.free}:null,
+    zine:K.zine?{type:K.zine.type,mood:K.zine.mood,reader:K.zine.reader,title:K.zine.title,method:K.zine.method}:null, /* [追加] */
     minutes:{game:mins(S.t0,K.t&&K.t.sort0),sort:mins(K.t&&K.t.sort0,K.t&&K.t.sort1),kake:mins(K.t&&K.t.kake0,K.t&&K.t.kake1),naze:mins(K.t&&K.t.naze0,K.t&&K.t.naze1)},
     finished:!!final||!!(K.t&&K.t.sheet0),trace:TRACE};
 }
 function saveRec(final){const r=buildRec(final);if(!r)return;const all=loadAll().filter(x=>x.session!==r.session);all.push(r);return storeAll(all)}
 const CSV_COLS=['id','session','startedAt','updatedAt','shortMode','age6','age10','age12','age15','age17','job18','place18','route18','work','doors','routeChanges','moves','age45','age60','age80','finalJob','finalPlace','finalRoute',
- 'koki','jizoku','junan','rakkan','bouken','people','sortWaku','sortFutsu','sortNigate','nWaku','nGameCardsWaku','kakeCards','kakeTitle','kakeMethod','naze1','naze1text','naze2','naze2text','naze3','naze3text','nazeDepth','interviewPicks','interviewFree','minGame','minSort','minKake','minNaze','finished'];
+ 'koki','jizoku','junan','rakkan','bouken','people','sortWaku','sortFutsu','sortNigate','nWaku','nGameCardsWaku','kakeCards','kakeTitle','kakeMethod','naze1','naze1text','naze2','naze2text','naze3','naze3text','nazeDepth','interviewPicks','interviewFree','zineType','zineMood','zineReader','zineTitle','zineTitleMethod','minGame','minSort','minKake','minNaze','finished'];
 function toCSV(all){
   const q=v=>{v=v==null?'':String(v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
   const rows=all.map(r=>{const n=i=>r.naze[i]||{chips:[],text:''};const gw=(r.sort.waku||[]).filter(id=>id.startsWith('g_')).length;
@@ -1971,7 +2121,7 @@ function toCSV(all){
       r.sort.waku.join(' '),r.sort.futsu.join(' '),r.sort.nigate.join(' '),r.sort.waku.length,gw,
       r.kake?r.kake.cards.join(' '):'',r.kake?r.kake.title:'',r.kake?r.kake.method:'',
       n(0).chips.join('・'),n(0).text,n(1).chips.join('・'),n(1).text,n(2).chips.join('・'),n(2).text,r.naze.filter(a=>a.chips.length||a.text).length,
-      r.interview?r.interview.picks.join(' / '):'',r.interview?r.interview.free:'',r.minutes.game,r.minutes.sort,r.minutes.kake,r.minutes.naze,r.finished].map(q).join(',')});
+      r.interview?r.interview.picks.join(' / '):'',r.interview?r.interview.free:'',...(r.zine?[r.zine.type,r.zine.mood,r.zine.reader,r.zine.title,r.zine.method]:['','','','','']),r.minutes.game,r.minutes.sort,r.minutes.kake,r.minutes.naze,r.finished].map(q).join(',')});
   return '﻿'+CSV_COLS.join(',')+'\n'+rows.join('\n');
 }
 function download(name,text,type){
